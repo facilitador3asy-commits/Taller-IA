@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portal educativo AnalaBanana para registro y consulta de solicitudes internas." />
+  <title>AnalaBanana | Portal de Solicitudes Internas</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header class="encabezado">
+    <div class="encabezado__contenido">
+      <img src="logo.png" alt="Logo de AnalaBanana" class="encabezado__logo" id="logoPortal" />
+      <div class="encabezado__texto">
+        <h1>AnalaBanana</h1>
+        <p>Portal educativo de solicitudes internas</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor-principal">
+    <section id="pantallaLogin" class="seccion-login" aria-labelledby="tituloLogin">
+      <div class="tarjeta tarjeta-login">
+        <h2 id="tituloLogin">Ingreso al portal</h2>
+        <p>Accede con tu correo y PIN demostrativo.</p>
+
+        <form id="formLogin" autocomplete="on" novalidate>
+          <div class="grupo-campo">
+            <label for="correo">Correo</label>
+            <input
+              type="email"
+              id="correo"
+              name="correo"
+              placeholder="usuario@correo.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="grupo-campo">
+            <label for="pin">PIN</label>
+            <input
+              type="password"
+              id="pin"
+              name="pin"
+              placeholder="Ingresa tu PIN"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <button type="submit" id="btnLogin" class="boton boton-principal">
+            Ingresar
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <section id="areaPrincipal" class="seccion-principal" aria-labelledby="tituloPrincipal" hidden>
+      <div class="barra-usuario" aria-label="Información del usuario autenticado">
+        <div>
+          <h2 id="tituloPrincipal">Gestión de solicitudes</h2>
+          <p id="textoUsuarioAutenticado">Usuario autenticado</p>
+        </div>
+
+        <div class="barra-usuario__acciones">
+          <button type="button" id="btnActualizar" class="boton boton-secundario">
+            Actualizar
+          </button>
+          <button type="button" id="btnImprimir" class="boton boton-secundario">
+            Imprimir/Guardar PDF
+          </button>
+          <button type="button" id="btnCerrarSesion" class="boton boton-salida">
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+
+      <section class="mensajes-sistema" aria-label="Mensajes del sistema">
+        <p id="mensajeCarga" class="mensaje mensaje-carga" role="status" aria-live="polite" hidden>
+          Procesando información...
+        </p>
+        <p id="mensajeExito" class="mensaje mensaje-exito" role="status" aria-live="polite" hidden>
+          Operación realizada correctamente.
+        </p>
+        <p id="mensajeError" class="mensaje mensaje-error" role="alert" aria-live="assertive" hidden>
+          No fue posible completar la operación.
+        </p>
+      </section>
+
+      <section class="tarjeta seccion-formulario" aria-labelledby="tituloFormulario">
+        <h3 id="tituloFormulario">Registrar nueva solicitud</h3>
+
+        <form id="formSolicitud" novalidate>
+          <div class="grupo-campo">
+            <label for="tipoSolicitud">Tipo de solicitud</label>
+            <select id="tipoSolicitud" name="tipoSolicitud" required>
+              <option value="">Seleccione una opción</option>
+              <option value="Soporte">Soporte</option>
+              <option value="Mejora">Mejora</option>
+              <option value="Consulta">Consulta</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="grupo-campo">
+            <label for="titulo">Título</label>
+            <input
+              type="text"
+              id="titulo"
+              name="titulo"
+              placeholder="Resumen breve de la solicitud"
+              required
+            />
+          </div>
+
+          <div class="grupo-campo">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              rows="5"
+              placeholder="Describe la solicitud"
+              required
+            ></textarea>
+          </div>
+
+          <div class="grupo-campo">
+            <label for="prioridad">Prioridad</label>
+            <select id="prioridad" name="prioridad" required>
+              <option value="">Seleccione una opción</option>
+              <option value="Baja">Baja</option>
+              <option value="Media">Media</option>
+              <option value="Alta">Alta</option>
+            </select>
+          </div>
+
+          <button type="submit" id="btnGuardarSolicitud" class="boton boton-principal">
+            Guardar solicitud
+          </button>
+        </form>
+      </section>
+
+      <section class="tarjeta seccion-consulta" aria-labelledby="tituloConsulta">
+        <div class="seccion-consulta__encabezado">
+          <h3 id="tituloConsulta">Mis solicitudes</h3>
+          <p>Consulta las solicitudes registradas con tu usuario.</p>
+        </div>
+
+        <div class="tabla-contenedor">
+          <table id="tablaSolicitudes">
+            <caption>
+              Listado de solicitudes del usuario autenticado
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">idSolicitud</th>
+                <th scope="col">fechaRegistro</th>
+                <th scope="col">idUsuario</th>
+                <th scope="col">solicitante</th>
+                <th scope="col">correo</th>
+                <th scope="col">tipoSolicitud</th>
+                <th scope="col">titulo</th>
+                <th scope="col">descripcion</th>
+                <th scope="col">prioridad</th>
+                <th scope="col">estado</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpoTablaSolicitudes">
+              <tr id="filaSinSolicitudes">
+                <td colspan="10">No existen solicitudes registradas.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <p>Login demostrativo. No representa seguridad productiva.</p>
+  </footer>
+</body>
+</html>
