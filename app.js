@@ -1,5 +1,5 @@
 ```javascript
-const API_URL = "https://script.google.com/macros/s/AKfycbyBseYyHhoEhDK_qdhBBU_sHwxvqfLEBqjdQvV2vrnNe_IYIUdxRF6xYLagEEElYhqw/exec";
+const API_URL = "1oZN4hV5FVTHhlaFBnIEgE4ip03lCRGIPz8IacjfKIfk";
 
 const STORAGE_USUARIO = "usuarioAutenticado";
 
